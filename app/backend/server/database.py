@@ -22,8 +22,8 @@ async def retrieve_fooditems():
 #add a new food item to the database
 async def add_fooditem(fooditems_data: dict) -> dict:   
     fooditem = await fooditems_collection.insert_one(fooditems_data)
-    new_fooditem = await fooditems_collection.find_one({"_barcode": fooditem.inserted_name})
-    return fooditems_helper(new_fooditem)
+  #  new_fooditem = await fooditems_collection.find_one({"_barcode": fooditem.inserted_name})
+    return True
 
 #retrieve fooditem with matching barcode
 async def retrieve_fooditem(barcode: str) -> dict:
