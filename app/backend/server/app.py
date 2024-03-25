@@ -23,16 +23,3 @@ app.add_middleware(
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
-
-"""@app.websocket("/environmental-data")
-async def environmental_data(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        update = await receive_environmental_update()
-        if update:
-            await websocket.send_json({
-                "temperature": update['temperature'],
-                "humidity": update['humidity'],
-                "timestamp": update['timestamp']
-            })
-        await asyncio.sleep(10)  # Wait for a bit before checking for new data"""

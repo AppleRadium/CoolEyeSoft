@@ -1,52 +1,53 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
-
+from decouple import config
 
 client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://raf322:Spark0702@cluster0.fhcw5oz.mongodb.net/')
 db = client.cooleye
-fooditems_collection = db.fooditems
+fooditems_collection = db.get_collection("fooditems")
 
 def fooditems_helper(fooditem) -> dict:
     return {
+        "id": str(fooditem["_id"]),
         "name": fooditem["name"],
-        "barcode": fooditem["barcode"]
+        
     }
 
 #retrieve all food items in database
 async def retrieve_fooditems():
     fooditems = []
-    async for fooditems in fooditems_helper.find():
-        fooditems.append(fooditems_helper(fooditems))
+    async for fooditem in fooditems_collection.find():
+        fooditems.append(fooditems_helper(fooditem))
     return fooditems
 
 #add a new food item to the database
 async def add_fooditem(fooditems_data: dict) -> dict:   
     fooditem = await fooditems_collection.insert_one(fooditems_data)
-  #  new_fooditem = await fooditems_collection.find_one({"_barcode": fooditem.inserted_name})
-    return True
+    new_fooditem = await fooditems_collection.find_one({"_id": fooditem.inserted_id})
+    return fooditems_helper(new_fooditem)
 
 #retrieve fooditem with matching barcode
-async def retrieve_fooditem(barcode: str) -> dict:
-    fooditem = await fooditems_collection.find_one({"_barcode": ObjectId(barcode)})
+async def retrieve_fooditem(id: str) -> dict:
+    fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
     if fooditem:
         return fooditems_helper(fooditem)
 
 #update fooditem with matching barcode
-async def update_fooditem(barcode: str, data: dict):
+async def update_fooditem(id: str, data: dict):
     if len(data) < 1:
         return False
-    fooditem = await fooditems_collection.find_one({"_barcode": ObjectId(barcode)})
+    fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
     if fooditem:
         updated_fooditem = await fooditems_collection.update_one(
-            {"_barcode": ObjectId(barcode)}, {"$set": data}
+            {"_id": ObjectId(id)}, {"$set": data}
         )
         if updated_fooditem:
             return True
         return False
     
 #delete a food item from the database
-async def delete_fooditem(barcode: str):
-    fooditem = await fooditems_collection.find_one({"_barcode": ObjectId(barcode)})
+async def delete_fooditem(id: str):
+    fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
     if fooditem:
-        await fooditems_collection.delete_one({"_barcode":ObjectId(barcode)})
+        await fooditems_collection.delete_one({"_id":ObjectId(id)})
         return True

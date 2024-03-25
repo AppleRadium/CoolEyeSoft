@@ -21,11 +21,11 @@ router = APIRouter()
 async def add_fooditem_data(fooditem: Schema = Body(...)):
     fooditem = jsonable_encoder(fooditem)
     new_fooditem = await add_fooditem(fooditem)
-    # return ResponseModel(new_fooditem, "Food item added successfully.")
-    return {
+    return ResponseModel(new_fooditem, "Food item added successfully.")
+    """ return {
         "message": "Food item added successfully.",
         "data": str(fooditem)
-    }
+    }"""
 
 @router.get("/", response_description="Food items retrieved")
 async def get_fooditems():

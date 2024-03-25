@@ -3,25 +3,24 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 class Schema(BaseModel):
-    barcode: str = Field(...)
+   
     name: str = Field(...)
 
     class Config:
         schema_extra = {
             "example:": {
-                "barcode": "078742374659",
                 "name": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
+                #"date":
             }
         }
 
 class UpdateModel(BaseModel):
-    barcode: Optional[str]
+    
     name: Optional[str]
 
     class Config:
         schema_extra = {
             "example:": {
-                "barcode": "078742374659",
                 "name": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
             }
         }
