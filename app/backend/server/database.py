@@ -1,6 +1,6 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
-from decouple import config
+#from decouple import config
 
 client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://raf322:Spark0702@cluster0.fhcw5oz.mongodb.net/')
 db = client.cooleye
