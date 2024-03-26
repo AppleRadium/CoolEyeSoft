@@ -11,14 +11,14 @@ from server.database import (
 from server.schemas.fooditem import (
     ErrorResponseModel,
     ResponseModel,
-    Schema,
-    UpdateModel,
+    FoodSchema,
+    UpdateFoodModel,
 )
 
 router = APIRouter()
 
 @router.post("/", response_description="Food item data added into the database")
-async def add_fooditem_data(fooditem: Schema = Body(...)):
+async def add_fooditem_data(fooditem: FoodSchema = Body(...)):
     fooditem = jsonable_encoder(fooditem)
     new_fooditem = await add_fooditem(fooditem)
     return ResponseModel(new_fooditem, "Food item added successfully.")
@@ -40,7 +40,7 @@ async def get_fooditem_data(name):
     return ErrorResponseModel("An error occurred.", 404, "Food item doesn't exist.")
 
 @router.put("/{name}")
-async def update_fooditem_data(name: str, req: UpdateModel = Body(...)):
+async def update_fooditem_data(name: str, req: UpdateFoodModel = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_fooditem = await update_fooditem(name, req)
     if updated_fooditem:

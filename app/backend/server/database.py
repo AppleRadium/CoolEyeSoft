@@ -1,13 +1,13 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
 
-#from decouple import config
+from decouple import config
 
 client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://raf322:Spark0702@cluster0.fhcw5oz.mongodb.net/')
 db = client.cooleye
 fooditems_collection = db.get_collection("fooditems")
 
-#MONGO_DETAILS = config("MONGO_DETAILS")
+MONGO_DETAILS = config("MONGO_DETAILS")
 
 def fooditems_helper(fooditem) -> dict:
     return {
@@ -19,7 +19,7 @@ def fooditems_helper(fooditem) -> dict:
 #retrieve all food items in database
 async def retrieve_fooditems():
     fooditems = []
-    async for fooditem in fooditems_collection.find():
+    async for fooditem in fooditems_collection.find().sort("date", -1):
         fooditems.append(fooditems_helper(fooditem))
     return fooditems
 
@@ -35,7 +35,7 @@ async def retrieve_fooditem(id: str) -> dict:
     if fooditem:
         return fooditems_helper(fooditem)
 
-#update fooditem with matching barcode
+#update fooditem
 async def update_fooditem(id: str, data: dict):
     if len(data) < 1:
         return False
@@ -54,3 +54,5 @@ async def delete_fooditem(id: str):
     if fooditem:
         await fooditems_collection.delete_one({"_id":ObjectId(id)})
         return True
+
+#receive live data from DHT22

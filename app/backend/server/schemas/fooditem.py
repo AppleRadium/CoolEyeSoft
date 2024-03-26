@@ -1,8 +1,8 @@
 from typing import Optional
-from datetime import date
+from datetime import datetime
 from pydantic import BaseModel, Field
 
-class Schema(BaseModel):
+class FoodSchema(BaseModel):
    
     name: str = Field(...)
 
@@ -10,11 +10,11 @@ class Schema(BaseModel):
         schema_extra = {
             "example:": {
                 "name": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
-                #"date":
+                
             }
         }
 
-class UpdateModel(BaseModel):
+class UpdateFoodModel(BaseModel):
     
     name: Optional[str]
 
@@ -22,6 +22,21 @@ class UpdateModel(BaseModel):
         schema_extra = {
             "example:": {
                 "name": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
+            }
+        }
+
+
+class SensorModel(BaseModel):
+    temperature: float = Field(..., example=24.5)
+    humidity: float = Field(..., example=40.2)
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "temperature": 24.5,
+                "humidity": 40.2,
+                "timestamp": "2023-03-18T12:00:00"
             }
         }
 
