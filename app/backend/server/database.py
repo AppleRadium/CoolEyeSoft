@@ -54,5 +54,3 @@ async def delete_fooditem(id: str):
     if fooditem:
         await fooditems_collection.delete_one({"_id":ObjectId(id)})
         return True
-
-#receive live data from DHT22
