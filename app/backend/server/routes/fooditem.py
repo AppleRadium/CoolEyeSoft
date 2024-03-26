@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 
-from server.database import (
+from ..database import (
     add_fooditem,
     delete_fooditem,
     retrieve_fooditem,
     retrieve_fooditems,
     update_fooditem,
 )
-from server.schemas.fooditem import (
+from ..schemas.fooditem import (
     ErrorResponseModel,
     ResponseModel,
     FoodSchema,
