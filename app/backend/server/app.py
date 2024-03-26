@@ -29,14 +29,12 @@ async def read_root():
 @app.websocket("/ws")
 async def sensor_data(websocket: WebSocket):
     await websocket.accept()
-    connected_clients.append(websocket)
     try:
         while True:
             data = await websocket.receive_text()
-            # Here you would parse the incoming data and possibly save it to MongoDB
-            for client in connected_clients:
-                await client.send_text(data)  # Echo data to all connected clients
+            # Process the incoming data here (e.g., parse JSON and save to MongoDB)
+            print(f"Data received: {data}")
     except Exception as e:
-        print(e)
+        print(f"Error: {e}")
     finally:
-        connected_clients.remove(websocket)
+        print("WebSocket connection closed")
