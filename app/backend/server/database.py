@@ -1,12 +1,13 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
-from decouple import config
+
+#from decouple import config
 
 client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://raf322:Spark0702@cluster0.fhcw5oz.mongodb.net/')
 db = client.cooleye
 fooditems_collection = db.get_collection("fooditems")
 
-MONGO_DETAILS = config("MONGO_DETAILS")
+#MONGO_DETAILS = config("MONGO_DETAILS")
 
 def fooditems_helper(fooditem) -> dict:
     return {
