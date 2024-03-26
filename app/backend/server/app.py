@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from server.routes.fooditem import router as FoodRouter
+from .routes.fooditem import router as FoodRouter
 from fastapi.middleware.cors import CORSMiddleware
 #from typing import List
 #from uuid import UUID, uuid4
