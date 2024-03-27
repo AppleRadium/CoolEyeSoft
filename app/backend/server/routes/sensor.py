@@ -19,7 +19,7 @@ sensor_router = APIRouter()
 
 
 @sensor_router.post("/", response_description="Sensor data added into the database")
-async def add_sensor_data(sensor: SensorSchema = Body(...)):
+async def add_sensor(sensor: SensorSchema = Body(...)):
     sensor = jsonable_encoder(sensor)
     new_sensor = await add_sensor_data(sensor)
     return ResponseModel(new_sensor, "Data added successfully.")
@@ -38,7 +38,7 @@ async def get_sensor_data(timestamp):
     sensor = await retrieve_sensor_data(timestamp)
     if sensor:
         return ResponseModel(sensor, "Sensor data retrieved successfully")
-    return ErrorResponseModel("An error occurred.", 404, "Food item doesn't exist.")
+    return ErrorResponseModel("An error occurred.", 404, "Sensor data doesn't exist.")
 
 """@sensor_router.put("/{timestamp}")
 async def update_sensor_data(timestamp: str, req: UpdateSensor = Body(...)):
