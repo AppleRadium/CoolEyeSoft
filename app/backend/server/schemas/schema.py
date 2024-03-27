@@ -26,9 +26,23 @@ class UpdateFoodModel(BaseModel):
         }
 
 
-class SensorModel(BaseModel):
+class SensorSchema(BaseModel):
     temperature: float = Field(..., example=24.5)
     humidity: float = Field(..., example=40.2)
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "temperature": 24.5,
+                "humidity": 40.2,
+                "timestamp": "2023-03-18T12:00:00"
+            }
+        }
+
+class UpdateSensor(BaseModel):
+    temperature: Optional[float]
+    humidity: Optional[float]
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
