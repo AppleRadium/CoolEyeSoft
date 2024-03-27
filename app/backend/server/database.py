@@ -45,7 +45,7 @@ async def add_fooditem(fooditems_data: dict) -> dict:
 async def add_sensor_data(sensor_data: dict) -> dict:   
     sensor = await dht22_collection.insert_one(sensor_data)
     new_sensor = await dht22_collection.find_one({"_id": sensor.inserted_id})
-    return fooditems_helper(new_sensor)
+    return sensor_data_helper(new_sensor)
 #retrieve fooditem with matching barcode
 async def retrieve_fooditem(id: str) -> dict:
     fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
@@ -55,7 +55,7 @@ async def retrieve_fooditem(id: str) -> dict:
 async def retrieve_sensor_data(id: str) -> dict:
     sensor = await dht22_collection.find_one({"_id": ObjectId(id)})
     if sensor:
-        return fooditems_helper(sensor)
+        return sensor_data_helper(sensor)
 #update fooditem
 async def update_fooditem(id: str, data: dict):
     if len(data) < 1:

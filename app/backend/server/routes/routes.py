@@ -107,11 +107,11 @@ async def update_sensor_data(timestamp: str, req: UpdateSensor = Body(...)):
     return ErrorResponseModel(
         "An error occurred",
         404,
-        "There was an error updating the food item data.",
+        "There was an error updating the sensor data.",
     )"""
 
-'''@sensor_router.delete("/{name}", response_description="Food item data deleted from the database")
-async def delete_fooditem_data(name: str):
+"""@sensor_router.delete("/{timestamp}", response_description="Food item data deleted from the database")
+async def delete_sensor_data(name: str):
     deleted_fooditem = await delete_fooditem(name)
     if deleted_fooditem:
         return ResponseModel(
@@ -119,4 +119,4 @@ async def delete_fooditem_data(name: str):
         )
     return ErrorResponseModel(
         "An error occurred", 404, "Food item with name {0} doesn't exist".format(id)
-    )'''
+    )"""
