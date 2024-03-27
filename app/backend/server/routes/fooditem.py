@@ -1,16 +1,13 @@
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 
-from ..database import (
+from ..databases.fooditem import (
     add_fooditem,
     delete_fooditem,
     retrieve_fooditem,
     retrieve_fooditems,
     update_fooditem,
-    add_sensor_data,
-    retrieve_sensor_datas,
-    retrieve_sensor_data,
-    update_sensor,
+   
 
 )
 from ..schemas.schema import (
