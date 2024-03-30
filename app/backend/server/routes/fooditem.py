@@ -15,12 +15,9 @@ from ..schemas.schema import (
     ResponseModel,
     FoodSchema,
     UpdateFoodModel,
-    SensorSchema,
-    UpdateSensor,
 )
 
 food_router = APIRouter()
-sensor_router = APIRouter()
 
 @food_router.post("/", response_description="Food item data added into the database")
 async def add_fooditem_data(fooditem: FoodSchema = Body(...)):
