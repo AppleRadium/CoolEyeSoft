@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
+from typing import List
 
 from ..databases.fooditem import (
     add_fooditem,
@@ -26,13 +27,15 @@ async def add_fooditem_data(fooditem: FoodSchema = Body(...)):
     return ResponseModel(new_fooditem, "Food item added successfully.")
     
 
-@food_router.get("/", response_description="Food items retrieved")
+# Assuming retrieve_fooditems returns a list of food items
+@food_router.get("/", response_model=List[FoodSchema])
 async def get_fooditems():
     fooditems = await retrieve_fooditems()
     if fooditems:
-        return ResponseModel(fooditems, "Food items data retrieved successfully")
-    return ResponseModel(fooditems, "Empty list returned")
-
+        # Directly return the list
+        return fooditems
+    # If there are no food items, return an empty list
+    return []
 
 @food_router.get("/{name}", response_description="Food item data retrieved")
 async def get_fooditem_data(name):

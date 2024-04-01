@@ -12,9 +12,11 @@ function App() {
   useEffect(() => {
     axios.get('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/')
       .then(res => {
-        setInventory(res.data)
+        console.log("Received data:", res.data.results); // Add this line
+        setInventory(res.data.results);
       })
-  });
+      .catch(error => console.error('Fetching inventory error:', error));
+  }, []);
 
   //Post an item
   const addFoodItem = () => {
