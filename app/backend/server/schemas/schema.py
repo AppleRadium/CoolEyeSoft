@@ -4,24 +4,24 @@ from pydantic import BaseModel, Field
 
 class FoodSchema(BaseModel):
    
-    name: str = Field(...)
+    foodItem: str = Field(...)
 
     class Config:
         schema_extra = {
             "example:": {
-                "name": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
+                "foodItem": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
                 
             }
         }
 
 class UpdateFoodModel(BaseModel):
     
-    name: Optional[str]
+    foodItem: Optional[str]
 
     class Config:
         schema_extra = {
             "example:": {
-                "name": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
+                "foodItem": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
             }
         }
 
