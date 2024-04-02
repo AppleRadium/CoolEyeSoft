@@ -13,11 +13,16 @@ function App() {
   useEffect(() => {
     axios.get('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/')
       .then(res => {
-        console.log("Received data:", res.data); // Add this line
-        setInventory(res.data.data);
+        console.log("Received data:", res.data); // Logs fetched data
+        setInventory(res.data); // Update this line if the data structure is as shown
+        console.log("Inventory state after set:", inventory); // Might log the old state due to async state update
       })
       .catch(error => console.error('Fetching inventory error:', error));
-  }, []);
+}, []);
+
+useEffect(() => {
+  console.log("Updated inventory state:", inventory);
+}, [inventory]);
 
   //Post an item
   const addFoodItem = () => {
@@ -36,7 +41,7 @@ function App() {
       <span>
         <input className = "mb-2 form-control titleIn" onChange ={event =>setFoodItem(event.target.value)} placeholder='Name of Food Item'/>
         <input className = "mb-2 form-control titleIn" onChange ={event =>setCount(event.target.value)} placeholder='Item Count'/>
-         <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px',"font-weight":"bold"}} onClick={addFoodItem}>Add Food Item</button>
+         <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px',"fontWeight":"bold"}} onClick={addFoodItem}>Add Food Item</button>
       </span>
       <h5 className = "card text-white bg-dark mb-3"> Inventory</h5>
       <div>
