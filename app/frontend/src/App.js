@@ -14,7 +14,11 @@ function App() {
     axios.get('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/')
       .then(res => {
         console.log("Received data:", res.data); // Logs fetched data
-        setInventory(res.data); // Update this line if the data structure is as shown
+        const transformedItems = inventory.map(item => ({
+          ...item,
+          id: item._id.$oid // or just item._id if it's already in the right format
+        }));
+        setInventory(transformedItems); // Update this line if the data structure is as shown
         console.log("Inventory state after set:", inventory); // Might log the old state due to async state update
       })
       .catch(error => console.error('Fetching inventory error:', error));
