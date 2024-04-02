@@ -4,24 +4,27 @@ from pydantic import BaseModel, Field
 
 class FoodSchema(BaseModel):
    
-    foodItem: str = Field(...)
+    Item: str = Field(...)
+    Count: int = Field(..., description = "count of food item")
 
     class Config:
         schema_extra = {
             "example:": {
-                "foodItem": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
-                
+                "Item": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack",
+                "Count": 5
             }
         }
 
 class UpdateFoodModel(BaseModel):
     
-    foodItem: Optional[str]
+    Item: Optional[str]
+    Count: Optional[int] = Field(None, description = "updated count of food item")
 
     class Config:
         schema_extra = {
             "example:": {
-                "foodItem": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack"
+                "Item": "Great Value Vanilla Flavored Ice Cream Sandwhiches, 42 fl oz, 12 Pack",
+                "Count": 5
             }
         }
 

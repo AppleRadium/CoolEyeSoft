@@ -6,22 +6,25 @@ import ListView from "./components/ListView"
 
 function App() {
   const [inventory, setInventory] = useState([{}])
-  const [foodItem, setFoodItem] = useState('')
+  const [Item, setFoodItem] = useState('')
+  const [Count, setCount] = useState('')
 
   //read all items
   useEffect(() => {
     axios.get('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/')
       .then(res => {
-        console.log("Received data:", res.data.results); // Add this line
-        setInventory(res.data.results);
+        console.log("Received data:", res.data); // Add this line
+        setInventory(res.data.data);
       })
       .catch(error => console.error('Fetching inventory error:', error));
   }, []);
 
   //Post an item
   const addFoodItem = () => {
-    axios.post('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/', { 'name': foodItem})
-      .then(res => console.log(res))
+  
+  axios.post('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/', {"Item": Item, "Count": Count})
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
 };
   return (
     <div className="App">
@@ -31,8 +34,8 @@ function App() {
       <div className = "card-body"> 
       <h5 className = "card text-white bg-dark mb-3"> Live Feed</h5>
       <span>
-        <input className = "mb-2 form-control titleIn" onChange ={event =>
-        setFoodItem(event.target.value)} placeholder='Name of Food Item'/>
+        <input className = "mb-2 form-control titleIn" onChange ={event =>setFoodItem(event.target.value)} placeholder='Name of Food Item'/>
+        <input className = "mb-2 form-control titleIn" onChange ={event =>setCount(event.target.value)} placeholder='Item Count'/>
          <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px',"font-weight":"bold"}} onClick={addFoodItem}>Add Food Item</button>
       </span>
       <h5 className = "card text-white bg-dark mb-3"> Inventory</h5>

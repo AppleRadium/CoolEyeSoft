@@ -12,7 +12,8 @@ MONGO_DETAILS = config("MONGO_DETAILS")
 def fooditems_helper(fooditem) -> dict:
     return {
         "id": str(fooditem["_id"]),
-        "foodItem": fooditem["foodItem"],
+        "Item": fooditem["Item"],
+        "Count": fooditem["Count"]
     }
 
 #retrieve all food items in database

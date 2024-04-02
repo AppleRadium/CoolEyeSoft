@@ -2,8 +2,8 @@ import axios from 'axios'
 import React from 'react'
 
 function Inventory(props) {
-    const deleteFoodItem = (foodItem) => {
-    axios.delete(`https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/${foodItem}`)
+    const deleteFoodItem = (Item) => {
+    axios.delete(`https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/${Item}`)
         .then(res => console.log(res.data)) 
         .then (data => console.log(data))}
   
