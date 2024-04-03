@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
 
 from ..databases.sensor import (
     
     add_sensor_data,
     retrieve_sensor_datas,
+    get_latest_sensor_data,
     retrieve_sensor_data,
+    dht22_collection,
 
 )
 from ..schemas.schema import (
@@ -32,13 +34,14 @@ async def get_sensor_data_list():
         return ResponseModel(sensordatas, "Sensor data list retrieved successfully")
     return ResponseModel(sensordatas, "Empty list returned")
 
+@sensor_router.get("/latest")
+async def fetch_latest_sensor_data():
+    latest_data = await get_latest_sensor_data()
+    if not latest_data:
+        raise HTTPException(status_code=404, detail="No sensor data found")
+    return {"temperature": latest_data["temperature"], "humidity": latest_data["humidity"], "timestamp": latest_data["timestamp"]}
 
-@sensor_router.get("/{timestamp}", response_description="Sensor data retrieved")
-async def get_sensor_data(timestamp):
-    sensor = await retrieve_sensor_data(timestamp)
-    if sensor:
-        return ResponseModel(sensor, "Sensor data retrieved successfully")
-    return ErrorResponseModel("An error occurred.", 404, "Sensor data doesn't exist.")
+
 
 """@sensor_router.put("/{timestamp}")
 async def update_sensor_data(timestamp: str, req: UpdateSensor = Body(...)):

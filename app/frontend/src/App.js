@@ -13,22 +13,17 @@ function App() {
   useEffect(() => {
     axios.get('https://protected-dawn-61147-56a85301481c.herokuapp.com/fooditem/')
       .then(res => {
-        // Log the raw response data to inspect its structure
-        console.log("Raw received data:", res.data);
-  
-        // Assume res.data.data is the array of items
-        // and each item has an `_id` field from MongoDB
-        const transformedItems = res.data.data.map(item => ({
+        console.log("Received data:", res.data);
+        // Transform items here before setting the state
+        const transformedItems = res.data.map(item => ({
           ...item,
-          id: item._id, // Rename _id to id
+          id: item._id // Assuming the backend sends the ObjectId as _id directly
         }));
-  
-        console.log("Transformed items:", transformedItems); // Inspect transformed items to ensure 'id' is present
-  
-        setInventory(transformedItems); // Update state
+        setInventory(transformedItems); // Now your inventory state includes items with a proper 'id' field
       })
       .catch(error => console.error('Fetching inventory error:', error));
   }, []);
+
 useEffect(() => {
   console.log("Updated inventory state:", inventory);
 }, [inventory]);
@@ -46,7 +41,6 @@ useEffect(() => {
       <h1 className = "card text-white bg-primary mb-1" >
         CoolEye</h1>
       <div className = "card-body"> 
-      <h5 className = "card text-white bg-dark mb-3"> Live Feed</h5>
       <h5 className = "card text-white bg-dark mb-3"> Temperature and Humidity</h5>
       <h5 className = "card text-white bg-dark mb-3"> Input</h5>
       <span>

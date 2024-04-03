@@ -59,13 +59,15 @@ async def update_fooditem_data(name: str, req: UpdateFoodModel = Body(...)):
         "There was an error updating the food item data.",
     )
 
-@food_router.delete("/{name}", response_description="Food item data deleted from the database")
-async def delete_fooditem_data(name: str):
-    deleted_fooditem = await delete_fooditem(name)
+@food_router.delete("/{id}", response_description="Food item data deleted from the database")
+async def delete_fooditem_data(id: str):
+    deleted_fooditem = await delete_fooditem(id)  # Ensure this function exists in your database access layer
     if deleted_fooditem:
         return ResponseModel(
-            "Food item with name: {} removed".format(name), "Food item deleted successfully"
+            f"Food item with ID: {id} removed", "Food item deleted successfully"
         )
-    return ErrorResponseModel(
-        "An error occurred", 404, "Food item with name {0} doesn't exist".format(id)
-    )
+    else:
+        return ErrorResponseModel(
+            "An error occurred", 404, f"Food item with ID {id} doesn't exist."
+        )
+
