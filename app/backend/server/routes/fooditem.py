@@ -37,20 +37,20 @@ async def get_fooditems():
     # If there are no food items, return an empty list
     return []
 
-@food_router.get("/{name}", response_description="Food item data retrieved")
-async def get_fooditem_data(name):
-    fooditem = await retrieve_fooditem(name)
+@food_router.get("/{id}", response_description="Food item data retrieved")
+async def get_fooditem_data(id):
+    fooditem = await retrieve_fooditem(id)
     if fooditem:
         return ResponseModel(fooditem, "Food item data retrieved successfully")
     return ErrorResponseModel("An error occurred.", 404, "Food item doesn't exist.")
 
-@food_router.put("/{name}")
-async def update_fooditem_data(name: str, req: UpdateFoodModel = Body(...)):
+@food_router.put("/{id}")
+async def update_fooditem_data(id: str, req: UpdateFoodModel = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
-    updated_fooditem = await update_fooditem(name, req)
+    updated_fooditem = await update_fooditem(id, req)
     if updated_fooditem:
         return ResponseModel(
-            "Food item with name: {} name update is successful".format(name),
+            "Food item with name: {} name update is successful".format(id),
             "Food item name updated successfully",
         )
     return ErrorResponseModel(
@@ -64,10 +64,10 @@ async def delete_fooditem_data(id: str):
     deleted_fooditem = await delete_fooditem(id)  # Ensure this function exists in your database access layer
     if deleted_fooditem:
         return ResponseModel(
-            f"Food item with ID: {id} removed", "Food item deleted successfully"
+            "Food item with ID: {} removed", "Food item deleted successfully"
         )
     else:
         return ErrorResponseModel(
-            "An error occurred", 404, f"Food item with ID {id} doesn't exist."
+            "An error occurred", 404, "Food item with ID {0} doesn't exist."
         )
 

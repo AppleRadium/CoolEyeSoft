@@ -53,4 +53,4 @@ async def delete_fooditem(id: str):
     fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
     if fooditem:
         await fooditems_collection.delete_one({"_id":ObjectId(id)})
-        return True
+        return True                                                 
