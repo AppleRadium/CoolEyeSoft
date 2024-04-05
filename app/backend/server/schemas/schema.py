@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, GetJsonSchemaHandler
 from pydantic.json_schema import JsonSchemaValue
 from pydantic_core import core_schema
 from pydantic.functional_validators import BeforeValidator
-'''class _ObjectIdPydanticAnnotation:
+class _ObjectIdPydanticAnnotation:
     # Based on https://docs.pydantic.dev/latest/usage/types/custom/#handling-third-party-types.
 
     @classmethod
@@ -25,22 +25,23 @@ from pydantic.functional_validators import BeforeValidator
                 core_schema.no_info_plain_validator_function(validate_from_str),
             ],
             serialization=core_schema.to_string_ser_schema(),
-        )'''
+        )
     
 
-'''PydanticObjectId = Annotated[
+PydanticObjectId = Annotated[
     ObjectId, _ObjectIdPydanticAnnotation
-]'''
+]
 
-PydanticObjectId = Annotated[str, BeforeValidator(str)]
+#PydanticObjectId = Annotated[str, BeforeValidator(str)]
 class FoodSchema(BaseModel):
 
-    id: Optional[PydanticObjectId] = Field(alias="_id", default = None)
+    #id: Optional[PydanticObjectId] = Field(alias="_id", default = None)
+    id: Optional[PydanticObjectId] = Field(alias="_id")
     Item: str = Field(...)
     Count: int = Field(..., description = "count of food item")
     model_config = ConfigDict (
         arbitrary_types_allowed = True,
-      #  json_encoders = {ObjectId: str},
+        json_encoders = {ObjectId: str},
         populate_by_name=True,
         allow_population_by_alias = True)
 
@@ -49,7 +50,8 @@ class FoodSchema(BaseModel):
 class UpdateFoodModel(BaseModel):
     
     
-    id: Optional[PydanticObjectId] = Field(alias="_id", default = None)
+    #id: Optional[PydanticObjectId] = Field(alias="_id", default = None)
+    id: Optional[PydanticObjectId] = Field(alias="_id")
     Item: Optional[str]
     Count: Optional[int] = Field(None, description = "updated count of food item")
     model_config = ConfigDict(
