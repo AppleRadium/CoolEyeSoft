@@ -1,23 +1,21 @@
 from datetime import datetime
 from typing import Annotated, Any, Callable, Optional
 from bson import ObjectId
-
+from uuid import uuid4, UUID
 from pydantic import BaseModel, ConfigDict, Field, GetJsonSchemaHandler
 from pydantic.json_schema import JsonSchemaValue
 from pydantic_core import core_schema
 from pydantic.functional_validators import BeforeValidator
 
-
 PydanticObjectId = Annotated[str, BeforeValidator(str)]
 class FoodSchema(BaseModel):
 
-
-    id: Optional[PydanticObjectId] = Field(alias="_id", default = None)
+    unique_id: str = Field(default_factory=lambda: str(uuid4()))
     Item: str = Field(...)
     Count: int = Field(..., description = "count of food item")
     model_config = ConfigDict (
         arbitrary_types_allowed = True,
-        json_encoders = {ObjectId: str},
+        #json_encoders = {ObjectId: str},
         populate_by_name=True,
         allow_population_by_alias = True
         )
@@ -26,8 +24,6 @@ class FoodSchema(BaseModel):
 
 class UpdateFoodModel(BaseModel):
     
-    
-    id: Optional[PydanticObjectId] = Field(alias="_id", default = None)
     Item: Optional[str]
     Count: Optional[int] = Field(None, description = "updated count of food item")
     model_config = ConfigDict(
