@@ -49,8 +49,11 @@ async def update_fooditem(id: str, data: dict):
         return False
      
 #delete a food item from the database
-async def delete_fooditem(id: str):
-    fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
+async def delete_fooditem(unique_id: str):
+    # Assuming 'unique_id' is the field name in your MongoDB documents
+    fooditem = await fooditems_collection.find_one({"unique_id": unique_id})
     if fooditem:
-        await fooditems_collection.delete_one({"_id":ObjectId(id)})
-        return True                                                 
+        await fooditems_collection.delete_one({"unique_id": unique_id})
+        return True
+    else:
+        return False                               
