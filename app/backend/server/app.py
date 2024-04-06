@@ -10,7 +10,8 @@ app = FastAPI()
 app.include_router(FoodRouter, tags=["Food Item"], prefix="/fooditem")
 app.include_router(SensorRouter, tags=["Sensor"], prefix="/sensor")
 origins = [
-    "*"
+    "*",
+    "https://cooleyefrontend-e4cd085ab79b.herokuapp.com/"
 ]
 
 
