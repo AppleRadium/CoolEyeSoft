@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
 from typing import List
+from uuid import uuid4
+
 
 from ..databases.fooditem import (
     add_fooditem,
@@ -22,8 +24,9 @@ food_router = APIRouter()
 
 @food_router.post("/", response_description="Food item data added into the database")
 async def add_fooditem_data(fooditem: FoodSchema = Body(...)):
-    fooditem = jsonable_encoder(fooditem)
-    new_fooditem = await add_fooditem(fooditem)
+    fooditem_data = jsonable_encoder(fooditem)
+    fooditem_data["unique_id"] = str(uuid4())
+    new_fooditem = await add_fooditem(fooditem_data)
     return ResponseModel(new_fooditem, "Food item added successfully.")
     
 
