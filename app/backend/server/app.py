@@ -1,14 +1,15 @@
 from fastapi import FastAPI, WebSocket
 from .routes.fooditem import food_router as FoodRouter
 from .routes.sensor import sensor_router as SensorRouter
+from .routes.image import image_router as ImageRouter
 from fastapi.middleware.cors import CORSMiddleware
-#from uuid import UUID, uuid4
 from typing import List
 
 
 app = FastAPI()
 app.include_router(FoodRouter, tags=["Food Item"], prefix="/fooditem")
 app.include_router(SensorRouter, tags=["Sensor"], prefix="/sensor")
+app.include_router(ImageRouter, tags=["Image"], prefix = "/image")
 origins = [
     "*",
     "https://cooleyefrontend-e4cd085ab79b.herokuapp.com/"
