@@ -11,7 +11,7 @@ async def upload_image(file: UploadFile = File(...)):
     current_file_path = Path(__file__).resolve()
 
     # Navigate up three levels to the server directory
-    server_directory = current_file_path.parent.parent.parent
+    server_directory = current_file_path.parent
 
     # Define the save_directory path
     save_directory = server_directory / "uploaded_images"
