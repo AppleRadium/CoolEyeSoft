@@ -1,10 +1,7 @@
 from datetime import datetime
-from typing import Annotated, Any, Callable, Optional
-from bson import ObjectId
-from uuid import uuid4, UUID
-from pydantic import BaseModel, ConfigDict, Field, GetJsonSchemaHandler
-from pydantic.json_schema import JsonSchemaValue
-from pydantic_core import core_schema
+from typing import Annotated, Optional
+from uuid import UUID
+from pydantic import BaseModel, Field
 from pydantic.functional_validators import BeforeValidator
 
 

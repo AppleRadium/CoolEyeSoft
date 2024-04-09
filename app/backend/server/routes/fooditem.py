@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, HTTPException
+from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 from typing import List
 from uuid import uuid4

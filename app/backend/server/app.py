@@ -1,9 +1,8 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from .routes.fooditem import food_router as FoodRouter
 from .routes.sensor import sensor_router as SensorRouter
 from .routes.image import image_router as ImageRouter
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
 
 
 app = FastAPI()
