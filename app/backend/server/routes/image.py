@@ -7,7 +7,20 @@ image_router = APIRouter()
 
 @image_router.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
-    return {"message": "Endpoint hit successfully", "filename": file.filename}
+    # Define the path relative to the current file's location
+    current_file_path = Path(__file__).resolve()
+    root_path = current_file_path.parent.parent.parent.parent.parent
+    
+    # Define the save_directory relative to the root of the app
+    save_directory = root_path / "uploaded_images"
+    save_directory.mkdir(exist_ok=True)
+    
+    save_path = save_directory / file.filename
+    
+    with save_path.open("wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return JSONResponse(status_code=200, content={"message": "Image uploaded successfully", "filename": file.filename})
 
 @image_router.get("/upload")
 async def get_latest_image():
