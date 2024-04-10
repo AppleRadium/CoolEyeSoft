@@ -1,36 +1,30 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, APIRouter
+from fastapi import APIRouter, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
 import shutil
+import os
 
 image_router = APIRouter()
 
-# Calculate the save_directory based on the current file's location
+# Calculate the path to the 'uploaded_images' directory from the current file location
 current_file_path = Path(__file__).resolve()
-root_path = current_file_path.parent.parent.parent.parent.parent
-save_directory = root_path / "uploaded_images"
-save_directory.mkdir(exist_ok=True)  # Ensure the directory exists
+app_root_directory = current_file_path.parents[4]  # Adjust the number of parents based on your directory structure
+uploaded_images_directory = app_root_directory / "uploaded_images"
+LATEST_IMAGE_PATH = uploaded_images_directory / "image.JPG"
 
 @image_router.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
-    try:
-        file_location = save_directory / file.filename
-        with file_location.open("wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        return {"message": "Image uploaded successfully", "filename": file.filename}
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail="An error occurred while uploading the image.")
+    # Ensure the 'uploaded_images' directory exists
+    uploaded_images_directory.mkdir(parents=True, exist_ok=True)
+    # Overwrite the existing file with the new one
+    with open(LATEST_IMAGE_PATH, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return {"message": "Image uploaded successfully", "filename": LATEST_IMAGE_PATH.name}
 
 @image_router.get("/latest")
 async def get_latest_image():
-    try:
-        # Find the most recently modified file
-        latest_image_path = max(save_directory.iterdir(), key=lambda x: x.stat().st_mtime, default=None)
-        if latest_image_path:
-            return FileResponse(latest_image_path)
-        else:
-            raise HTTPException(status_code=404, detail="No images found.")
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail="An error occurred while retrieving the image.")
+    # Return the latest image if it exists
+    if LATEST_IMAGE_PATH.exists():
+        return FileResponse(LATEST_IMAGE_PATH)
+    else:
+        raise HTTPException(status_code=404, detail="No latest image found")
