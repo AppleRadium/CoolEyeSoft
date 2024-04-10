@@ -10,7 +10,7 @@ image_router = APIRouter()
 current_file_path = Path(__file__).resolve()
 app_root_directory = current_file_path.parents[4]  # Adjust the number of parents based on your directory structure
 uploaded_images_directory = app_root_directory / "uploaded_images"
-LATEST_IMAGE_PATH = uploaded_images_directory / "image.JPG"
+LATEST_IMAGE_PATH = uploaded_images_directory / "image.jpeg"
 
 @image_router.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
