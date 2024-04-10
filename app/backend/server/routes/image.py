@@ -22,7 +22,7 @@ async def upload_image(file: UploadFile = File(...)):
     
     return JSONResponse(status_code=200, content={"message": "Image uploaded successfully", "filename": file.filename})
 
-@image_router.get("/upload")
+@image_router.get("/latest")
 async def get_latest_image():
     # Calculate the path to the 'uploaded_images' directory from the current file location
     current_file_path = Path(__file__).resolve()
