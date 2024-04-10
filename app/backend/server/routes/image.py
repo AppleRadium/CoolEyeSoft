@@ -9,7 +9,7 @@ image_router = APIRouter()
 async def upload_image(file: UploadFile = File(...)):
     # Define the path relative to the current file's location
     current_file_path = Path(__file__).resolve()
-    root_path = current_file_path.parent.parent.parent.parent.parent.parent
+    root_path = current_file_path.parent.parent.parent.parent.parent
     
     # Define the save_directory relative to the root of the app
     save_directory = root_path / "uploaded_images"
@@ -27,7 +27,7 @@ async def get_latest_image():
     # Calculate the path to the 'uploaded_images' directory from the current file location
     current_file_path = Path(__file__).resolve()
     # Adjust the traversal to correctly point to the application's root directory
-    app_root_directory = current_file_path.parent.parent.parent.parent.parent.parent
+    app_root_directory = current_file_path.parent.parent.parent.parent.parent
     image_directory = app_root_directory / "uploaded_images"
     
     try:
