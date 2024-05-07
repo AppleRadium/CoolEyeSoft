@@ -13,7 +13,8 @@ def fooditems_helper(fooditem) -> dict:
     return {
         "unique_id": fooditem["unique_id"],
         "Item": fooditem["Item"],
-        "Count": fooditem["Count"]
+        "Count": fooditem["Count"],
+        "expiration_date": fooditem["expiration_date"]
     }
 
 #retrieve all food items in database
@@ -36,13 +37,13 @@ async def retrieve_fooditem(id: str) -> dict:
         return fooditems_helper(fooditem)
 
 #update fooditem
-async def update_fooditem(id: str, data: dict):
+async def update_fooditem(unique_id: str, data: dict):
     if len(data) < 1:
         return False
-    fooditem = await fooditems_collection.find_one({"_id": ObjectId(id)})
+    fooditem = await fooditems_collection.find_one({"unique_id": unique_id})
     if fooditem:
         updated_fooditem = await fooditems_collection.update_one(
-            {"_id": ObjectId(id)}, {"$set": data}
+            {"unique_id": unique_id}, {"$set": data}
         )
         if updated_fooditem:
             return True

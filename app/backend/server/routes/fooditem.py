@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
 from typing import List
 from uuid import uuid4
@@ -49,18 +49,22 @@ async def get_fooditem_data(id):
 
 @food_router.put("/{id}")
 async def update_fooditem_data(id: str, req: UpdateFoodModel = Body(...)):
-    req = {k: v for k, v in req.dict().items() if v is not None}
-    updated_fooditem = await update_fooditem(id, req)
-    if updated_fooditem:
+       update_data = req.dict(exclude_unset=True)  # only include fields that were actually set
+       if not update_data:
+            raise HTTPException(status_code=400, detail="No data provided to update")
+
+       updated_fooditem = await update_fooditem(id, update_data)
+       if updated_fooditem:
         return ResponseModel(
-            "Food item with name: {} name update is successful".format(id),
-            "Food item name updated successfully",
+            "Food item with ID: {} update is successful".format(id),
+            "Food item updated successfully",
         )
-    return ErrorResponseModel(
-        "An error occurred",
-        404,
-        "There was an error updating the food item data.",
-    )
+       else:
+        return ErrorResponseModel(
+            "An error occurred",
+            404,
+            "There was an error updating the food item data.",
+        )
 
 @food_router.delete("/{id}", response_description="Food item data deleted from the database")
 async def delete_fooditem_data(id: str):

@@ -2,7 +2,6 @@ from fastapi import APIRouter, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
 import shutil
-import os
 
 image_router = APIRouter()
 

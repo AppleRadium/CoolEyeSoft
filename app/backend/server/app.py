@@ -11,7 +11,8 @@ app.include_router(SensorRouter, tags=["Sensor"], prefix="/sensor")
 app.include_router(ImageRouter, tags=["Image"], prefix = "/image")
 origins = [
     "*",
-    "https://cooleyefrontend-e4cd085ab79b.herokuapp.com/"
+   "https://cooleyefrontend-e4cd085ab79b.herokuapp.com/"
+   
 ]
 
 
